@@ -1,9 +1,8 @@
 import React from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import { Link } from "react-router-dom";
 
 class LandingPage extends React.Component {
-    
-
     render() {
         return (
             <div>
@@ -15,8 +14,10 @@ class LandingPage extends React.Component {
                     </Row>
                     <Row>
                         <Col>
-                            <div>Press the button to see your representatives.</div>
-                            <Button color="primary">Go</Button>
+                            <div>
+                                Follow the link to see your representatives.
+                            </div>
+                            <Link to="/homepage">Home</Link>
                         </Col>
                     </Row>
                 </Container>
