@@ -1,23 +1,26 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import AddressModal from '../address/AddressModal';
 
 class LandingPage extends React.Component {
     render() {
         return (
             <div>
-                <Container>
+                <Container fluid
+                    style={{
+                        height: "100%",
+                        width: "100%"
+                    }}>
                     <Row>
-                        <Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center"
+                            }}>
                             <div>Welcome to High Information Voter!</div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <div>
-                                Follow the link to see your representatives.
-                            </div>
-                            <Link to="/homepage">Home</Link>
+                            <AddressModal/>
                         </Col>
                     </Row>
                 </Container>
