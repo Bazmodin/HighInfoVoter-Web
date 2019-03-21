@@ -11,7 +11,7 @@ class ProPublicaApiService {
             .catch(onError)
     }
 
-    static getRepresentative(state, district, apiKey, onSuccess, onError) {
+    static getCongressperson(state, district, apiKey, onSuccess, onError) {
         axios.get(`https://api.propublica.org/congress/${apiVersion}/members/house/${state}/${district}/current.json`, { headers: {'X-API-Key': `${apiKey}`}})
             .then(onSuccess)
             .catch(onError)
