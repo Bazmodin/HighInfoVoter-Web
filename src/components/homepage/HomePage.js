@@ -9,12 +9,19 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             pak: '',
+            state: '',
+            district: '',
             senators: [],
             congressperson: {}
         };
     }
 
     componentDidMount() {
+        console.log(this.props.location.data);
+        this.setState({
+            state: this.props.location.data[0].state,
+            district: this.props.location.data[0].district
+        });
         ConfigService.getByKey("PROPUBLICA_API_KEY", this.onGetApiKeySuccess, this.onError);
     }
 
@@ -22,8 +29,8 @@ class HomePage extends React.Component {
         this.setState({
             pak: resp.data.Item.ConfigValue
         }, evt => {
-            ProPublicaApiService.getSenators('CA', this.state.pak, this.onGetSenatorsSuccess, this.onError);
-            ProPublicaApiService.getCongressperson('CA', '47', this.state.pak, this.onGetCongresspersonSuccess, this.onError);
+            ProPublicaApiService.getSenators(this.state.state, this.state.pak, this.onGetSenatorsSuccess, this.onError);
+            ProPublicaApiService.getCongressperson(this.state.state, this.state.district, this.state.pak, this.onGetCongresspersonSuccess, this.onError);
         });
     }
 
