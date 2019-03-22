@@ -10,7 +10,6 @@ class RepListCard extends React.Component {
     }
 
     render() {
-        console.log(this.props.rep);
         return (
             <ListGroupItem>
                 <Media>
