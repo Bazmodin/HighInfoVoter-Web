@@ -11,13 +11,13 @@ class RepList extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <h1 align="center">Your Senators</h1>
                 <ListGroup>
                     {this.props.senators.map(senator => (
                         <RepListCard
+                            key={senator.id}
                             rep={senator}/>
                     ))}
                 </ListGroup>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { connect } from 'react-redux';
 import RepList from '../list/RepList';
 import ConfigService from '../../services/ConfigService';
 import ProPublicaApiService from '../../services/ProPublicaApiService';
@@ -9,28 +10,22 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             pak: '',
-            state: '',
-            district: '',
             senators: [],
             congressperson: {}
         };
     }
 
     componentDidMount() {
-        console.log(this.props.location.data);
-        this.setState({
-            state: this.props.location.data[0].state,
-            district: this.props.location.data[0].district
-        });
         ConfigService.getByKey("PROPUBLICA_API_KEY", this.onGetApiKeySuccess, this.onError);
     }
 
     onGetApiKeySuccess = resp => {
+        console.log("WTFFFFFFF", this.props)
         this.setState({
             pak: resp.data.Item.ConfigValue
         }, evt => {
-            ProPublicaApiService.getSenators(this.state.state, this.state.pak, this.onGetSenatorsSuccess, this.onError);
-            ProPublicaApiService.getCongressperson(this.state.state, this.state.district, this.state.pak, this.onGetCongresspersonSuccess, this.onError);
+            ProPublicaApiService.getSenators(this.props.state, this.state.pak, this.onGetSenatorsSuccess, this.onError);
+            ProPublicaApiService.getCongressperson(this.props.state, this.props.district, this.state.pak, this.onGetCongresspersonSuccess, this.onError);
         });
     }
 
@@ -77,4 +72,12 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+const mapStateToProps = (state, ownProps) => {
+    console.log("HOL UP", state);
+    return {
+        district: state.district,
+        state: state.state
+    }
+}
+
+export default connect(mapStateToProps)(HomePage);

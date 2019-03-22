@@ -12,6 +12,7 @@ import {
     FormText
 } from "reactstrap";
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import states from './states.json';
 import GoogleApiService from '../../services/GoogleApiService';
 import ConfigService from '../../services/ConfigService';
@@ -57,6 +58,8 @@ class AddressModal extends React.Component {
 
     onGetDistrictSuccess = resp => {
         var district = resp.data.offices[0].name;
+        this.props.addDistrict(district.split('-')[1]);
+        this.props.addState(this.state.state);
         this.setState({
             district: district.split('-')[1]
         }, e => { this.reroute(); });
@@ -118,7 +121,7 @@ class AddressModal extends React.Component {
                                     value={this.state.state}
                                     onChange={e => this.setState({ state: e.target.value })}>
                                     {states.map(state => (
-                                        <option>{state.abbreviation}</option>
+                                        <option key={state.abbreviation}>{state.abbreviation}</option>
                                     ))}
                                 </Input>
                                 <FormText color="muted">We won't store this information.</FormText>
@@ -139,4 +142,17 @@ class AddressModal extends React.Component {
     }
 }
 
-export default withRouter(AddressModal);
+const mapStateToProps = (state) => {
+    return {
+        
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addDistrict: (district) => { dispatch({ type: 'ADD_DISTRICT', district: district})},
+        addState: (state) => { dispatch({ type: 'ADD_STATE', state: state})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AddressModal));
