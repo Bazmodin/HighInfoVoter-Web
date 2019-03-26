@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import RepList from '../list/RepList';
 import ConfigService from '../../services/ConfigService';
 import ProPublicaApiService from '../../services/ProPublicaApiService';
+import WebscrapeService from '../../services/WebscrapeService';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -20,7 +21,6 @@ class HomePage extends React.Component {
     }
 
     onGetApiKeySuccess = resp => {
-        console.log("WTFFFFFFF", this.props)
         this.setState({
             pak: resp.data.Item.ConfigValue
         }, evt => {
@@ -30,14 +30,24 @@ class HomePage extends React.Component {
     }
 
     onGetSenatorsSuccess = resp => {
-        this.setState({
-            senators: resp.data.results
-        })
+        resp.data.results.forEach(senator => {
+            var newSenator = senator;
+            WebscrapeService.scrapePortrait(senator.name.replace(' ', '_'), 
+                resp => {newSenator.portrait = resp.data.Item.Url}, 
+                err => {console.error(err)});
+            this.setState({
+                senators: [...this.state.senators, newSenator]
+            });
+        });
     }
 
     onGetCongresspersonSuccess = resp => {
+        var newCongressperson = resp.data.results[0];
+        WebscrapeService.scrapePortrait(newCongressperson.name.replace(' ', '_'), 
+                resp => {newCongressperson.portrait = resp.data.Item.Url}, 
+                err => {console.error(err)});
         this.setState({
-            congressperson: resp.data.results[0]
+            congressperson: newCongressperson
         })
     }
 
@@ -64,7 +74,9 @@ class HomePage extends React.Component {
                         }}>
                         <RepList
                             senators={senators}
-                            congressperson={congressperson}/>
+                            congressperson={congressperson}
+                            state={this.props.state}
+                            district={this.props.district}/>
                     </Col>
                 </Row>
             </Container>
@@ -73,7 +85,6 @@ class HomePage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log("HOL UP", state);
     return {
         district: state.district,
         state: state.state

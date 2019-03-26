@@ -6,14 +6,7 @@ import LandingPage from './components/landingpage/LandingPage';
 import HomePage from './components/homepage/HomePage';
 import rootReducer from './reducers/rootReducer';
 
-//vvvv Redux experiment, refactor when comfortable vvvv//
 const store = createStore(rootReducer);
-
-store.subscribe(() => {
-    console.log('state updated');
-    console.log(store.getState());
-})
-//^^^^ Redux experiment, refactor when comfortable ^^^^//
 
 class App extends Component {
     render() {
