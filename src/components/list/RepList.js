@@ -18,13 +18,15 @@ class RepList extends React.Component {
                     {this.props.senators.map(senator => (
                         <RepListCard
                             key={senator.id}
-                            rep={senator}/>
+                            rep={senator}
+                            state={this.props.state}/>
                     ))}
                 </ListGroup>
                 <h1 align="center">Your Congressperson</h1>
                 <ListGroup>
                     <RepListCard
-                        rep={this.props.congressperson}/>
+                        rep={this.props.congressperson}
+                        district={this.props.state + '-' + this.props.district}/>
                 </ListGroup>
             </div>
         );
