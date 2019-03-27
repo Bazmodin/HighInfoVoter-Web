@@ -13,7 +13,7 @@ class RepList extends React.Component {
     render() {
         return (
             <div>
-                <h1 align="center">Your Senators</h1>
+                <h1 align="center">Your Representatives</h1>
                 <ListGroup>
                     {this.props.senators.map(senator => (
                         <RepListCard
@@ -21,9 +21,6 @@ class RepList extends React.Component {
                             rep={senator}
                             state={this.props.state}/>
                     ))}
-                </ListGroup>
-                <h1 align="center">Your Congressperson</h1>
-                <ListGroup>
                     <RepListCard
                         rep={this.props.congressperson}
                         district={this.props.state + '-' + this.props.district}/>

@@ -1,13 +1,8 @@
 import React from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import AddressModal from '../address/AddressModal';
-import WebscrapeService from '../../services/WebscrapeService';
 
 class LandingPage extends React.Component {
-
-    onClick() {
-        WebscrapeService.scrapeAll(resp => {console.log(resp)}, err => {console.error(err)});
-    }
 
     render() {
         return (
@@ -27,7 +22,6 @@ class LandingPage extends React.Component {
                             }}>
                             <div>Welcome to High Information Voter!</div>
                             <AddressModal/>
-                            <Button color="danger" onClick={this.onClick}>SCRAPE ALL THE THINGS</Button>
                         </Col>
                     </Row>
                 </Container>

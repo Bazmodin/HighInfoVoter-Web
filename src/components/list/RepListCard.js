@@ -1,29 +1,48 @@
 import React from 'react';
 import { Container, Row, Col, ListGroupItem, Media } from 'reactstrap';
-
+import AwsS3Service from '../../services/AwsS3Service';
 
 class RepListCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            portrait: ''
+            url: ''
         }
     }
 
     componentDidMount(){
+        if(this.props.rep.name) {
+            var key = this.props.rep.name.replace(' ', '_') + '.jpg'
+            AwsS3Service.selectByKey(key, this.onGetUrlSuccess, this.onError);
+        }
+    }
+
+    componentWillReceiveProps(){
+        if(this.props.rep.name) {
+            var key = this.props.rep.name.replace(' ', '_') + '.jpg'
+            AwsS3Service.selectByKey(key, this.onGetUrlSuccess, this.onError);
+        }
+    }
+
+    onGetUrlSuccess = resp => {
+        console.log("yeeyah", resp);
         this.setState({
-            portrait: this.props.rep.portrait
+            url: resp.data.Item.SignedUrl
         })
     }
 
+    onError = err => {
+        console.error(err)
+    }
+
     render() {
-        console.log(this.props);
-        const { portrait } = this.state;
+        console.log(this.props.rep)
+        const { url } = this.state;
         return (
             <ListGroupItem>
                 <Media>
                     <Media left href="#">
-                    <Media object src={portrait} alt="placeholder"
+                    <Media object src={url} alt="placeholder"
                         style={{
                             maxWidth: "200px",
                             maxHeight: "200px"

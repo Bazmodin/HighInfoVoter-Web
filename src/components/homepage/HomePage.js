@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import RepList from '../list/RepList';
 import ConfigService from '../../services/ConfigService';
 import ProPublicaApiService from '../../services/ProPublicaApiService';
-import WebscrapeService from '../../services/WebscrapeService';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -31,23 +30,15 @@ class HomePage extends React.Component {
 
     onGetSenatorsSuccess = resp => {
         resp.data.results.forEach(senator => {
-            var newSenator = senator;
-            WebscrapeService.scrapePortrait(senator.name.replace(' ', '_'), 
-                resp => {newSenator.portrait = resp.data.Item.Url}, 
-                err => {console.error(err)});
             this.setState({
-                senators: [...this.state.senators, newSenator]
+                senators: [...this.state.senators, senator]
             });
         });
     }
 
     onGetCongresspersonSuccess = resp => {
-        var newCongressperson = resp.data.results[0];
-        WebscrapeService.scrapePortrait(newCongressperson.name.replace(' ', '_'), 
-                resp => {newCongressperson.portrait = resp.data.Item.Url}, 
-                err => {console.error(err)});
         this.setState({
-            congressperson: newCongressperson
+            congressperson: resp.data.results[0]
         })
     }
 
