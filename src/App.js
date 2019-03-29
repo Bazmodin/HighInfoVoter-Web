@@ -4,7 +4,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import LandingPage from './components/landingpage/LandingPage';
 import HomePage from './components/homepage/HomePage';
+import Representative from './components/representative/Representative';
 import rootReducer from './reducers/rootReducer';
+import './App.css';
 
 const store = createStore(rootReducer);
 
@@ -16,6 +18,7 @@ class App extends Component {
                     <div>
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/homepage" component={HomePage} />
+                        <Route path="/rep/:id" component={Representative} />
                     </div>
                 </BrowserRouter>
             </Provider>

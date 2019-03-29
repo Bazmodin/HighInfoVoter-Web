@@ -9,7 +9,8 @@ import {
     Form,
     FormGroup,
     Input,
-    FormText
+    FormText,
+    Alert
 } from "reactstrap";
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -32,7 +33,8 @@ class AddressModal extends React.Component {
     }
 
     componentDidMount() {
-        ConfigService.getByKey('GOOGLE_API_KEY', this.onGetApiKeySuccess, this.onError);
+        ConfigService.getByKey('GOOGLE_API_KEY', this.onGetGakSuccess, this.onError);
+        ConfigService.getByKey("PROPUBLICA_API_KEY", this.onGetPakSuccess, this.onError);
     }
 
     toggle() {
@@ -50,10 +52,14 @@ class AddressModal extends React.Component {
         });
     }
 
-    onGetApiKeySuccess = resp => {
+    onGetGakSuccess = resp => {
         this.setState({
             gak: resp.data.Item.ConfigValue
         })
+    }
+
+    onGetPakSuccess = resp => {
+        this.props.addPak(resp.data.Item.ConfigValue);
     }
 
     onGetDistrictSuccess = resp => {
@@ -124,7 +130,10 @@ class AddressModal extends React.Component {
                                         <option key={state.abbreviation}>{state.abbreviation}</option>
                                     ))}
                                 </Input>
-                                <FormText color="muted">We won't store this information.</FormText>
+                                <br/>
+                                <FormText color="muted">This will help us find your representatives.</FormText>
+                                <br/>
+                                <Alert color="danger">We won't store this information.</Alert>
                             </FormGroup>
                         </Form>
                     </ModalBody>
@@ -151,7 +160,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addDistrict: (district) => { dispatch({ type: 'ADD_DISTRICT', district: district})},
-        addState: (state) => { dispatch({ type: 'ADD_STATE', state: state})}
+        addState: (state) => { dispatch({ type: 'ADD_STATE', state: state})},
+        addPak: (pak) => { dispatch({ type: 'ADD_PAK', pak: pak})}
     }
 }
 

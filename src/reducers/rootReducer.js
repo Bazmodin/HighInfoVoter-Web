@@ -16,6 +16,12 @@ const rootReducer = (state = initState, action) => {
             state: action.state
         }
     }
+    if (action.type === 'ADD_PAK') {
+        return {
+            ...state,
+            pak: action.pak
+        }
+    }
     else {
         return {
             ...state
